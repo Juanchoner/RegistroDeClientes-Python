@@ -4,15 +4,17 @@ Widget para mostra a los usuarios en una tabla
 
 import tkinter
 from tkinter import ttk
-
+from DB.operations import Operations
 from Constants import style
 
 class CostumerTable(tkinter.Frame):
     def __init__(self, parent):
         super().__init__(parent)
-        self.configure(background="green")
+        self.configure(background = style.BACKGROUND)
+        self.operations = Operations()
 
         self.create_table()
+        self.operations.show_data_table(self.costumers_table)
 
     def create_table(self):
         names_column = ("Nombre", "Domicilio", "Escolaridad", "Teléfono", "Actividad", "Vencimiento")
