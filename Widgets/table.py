@@ -12,9 +12,13 @@ class CostumerTable(tkinter.Frame):
         super().__init__(parent)
         self.configure(background = style.BACKGROUND)
         self.operations = Operations()
+        
 
         self.create_table()
         self.operations.show_data_table(self.costumers_table)
+
+    def take_data(self, ev):
+        self.operations.get_cursor(self.costumers_table)
 
     def create_table(self):
         names_column = ("Nombre", "Domicilio", "Escolaridad", "Teléfono", "Actividad", "Vencimiento")
@@ -30,6 +34,8 @@ class CostumerTable(tkinter.Frame):
         move_y = ttk.Scrollbar(self, orient = "vertical", command=self.costumers_table)
         move_y.grid(row=0, column=1, sticky=tkinter.NS)
         self.costumers_table.config(yscrollcommand = move_y.set)
+
+        self.costumers_table.bind("<ButtonRelease-1>", self.take_data)
 
         self.grid_columnconfigure(0, weight=5)
         self.grid_columnconfigure(1, weight=0)

@@ -2,13 +2,12 @@
 Pantalla de registro de clientes
 '''
 
-from tkinter import Frame
 import tkinter
 from Constants import style
 from Widgets.form import FormRegister
 from Widgets.table import CostumerTable
 
-class Registro(Frame):
+class Registro(tkinter.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.configure(background = style.BACKGROUND)

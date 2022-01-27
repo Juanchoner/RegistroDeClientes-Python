@@ -10,6 +10,13 @@ class FormRegister(tkinter.Frame):
         super().__init__(parent)
         self.configure(background = style.BACKGROUND)
 
+        #Variables de los entrys datos en los etrys
+        self.nombre = tkinter.StringVar()
+        self.domicilio = tkinter.StringVar()
+        self.escolaridad = tkinter.StringVar()
+        self.actividad = tkinter.StringVar()
+        self.vencimiento = tkinter.StringVar()
+
         self.create_form()
 
     def create_form(self):
