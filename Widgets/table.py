@@ -7,17 +7,24 @@ from tkinter import ttk
 from Constants import style
 
 class CostumerTable(tkinter.Frame):
-    def __init__(self, parent, operations_db):
+    def __init__(self, parent, operations_db, entrys):
         super().__init__(parent)
         self.configure(background = style.BACKGROUND)
         self.operations = operations_db
+        self.send_data = entrys
 
 
         self.create_table()
         self.operations.show_data_table(self.costumers_table)
 
     def take_data(self, ev):
-        self.operations.get_cursor(self.costumers_table)
+        data = self.operations.get_cursor(self.costumers_table)
+        self.send_data["nombre"].set(data[0])
+        self.send_data["domicilio"].set(data[1])
+        self.send_data["escolaridad"].set(data[2])
+        self.send_data["telefono"].set(data[3])
+        self.send_data["actividad"].set(data[4])
+        self.send_data["vencimiento"].set(data[5])
 
     def create_table(self):
         names_column = ("Nombre", "Domicilio", "Escolaridad", "Teléfono", "Actividad", "Vencimiento")

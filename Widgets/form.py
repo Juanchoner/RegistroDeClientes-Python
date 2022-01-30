@@ -2,69 +2,65 @@
 Widget para el formulario de registro de clientes
 '''
 
+from cgitb import text
 import tkinter
 from tkinter import ttk
 import tkcalendar
 from Constants import style
 
 class FormRegister(tkinter.Frame):
-    def __init__(self, parent, operation_db):
+    def __init__(self, parent, operation_db, entrys):
         super().__init__(parent)
         self.configure(background = style.BACKGROUND)
         self.operations = operation_db
+        self.data_entrys = entrys
 
-        #Variables de los entrys datos en los etrys
-        self.nombre = tkinter.StringVar()
-        self.domicilio = tkinter.StringVar()
-        self.escolaridad = tkinter.StringVar()
-        self.telefono = tkinter.StringVar()
-        self.actividad = tkinter.StringVar()
-        self.vencimiento = tkinter.StringVar()
+
 
         self.create_form()
 
     def clear_entrys(self):
-        self.nombre.set('')
-        self.domicilio.set('')
-        self.telefono.set('')
-        self.escolaridad.set('')
-        self.actividad.set('')
-        self.vencimiento.set('')
+        self.data_entrys["nombre"].set('')
+        self.data_entrys["domicilio"].set('')
+        self.data_entrys["escolaridad"].set('')
+        self.data_entrys["telefono"].set('')
+        self.data_entrys["actividad"].set('')
+        self.data_entrys["vencimiento"].set('')
 
     def create_form(self):
         tkinter.Label(self, text = 'Nombre:', anchor="w", **style.STYLE_LABELS).pack(
             **style.PACK_LABELS
         )
-        tkinter.Entry(self, textvariable=self.nombre, **style.STYLE_ENTRYS).pack(**style.PACK_ENTRYS)
+        tkinter.Entry(self, textvariable=self.data_entrys["nombre"], **style.STYLE_ENTRYS).pack(**style.PACK_ENTRYS)
 
         tkinter.Label(self, text = 'Domicilio:', anchor="w", **style.STYLE_LABELS).pack(
             **style.PACK_LABELS
         )
-        tkinter.Entry(self, textvariable=self.domicilio, **style.STYLE_ENTRYS).pack(**style.PACK_ENTRYS)
+        tkinter.Entry(self, textvariable=self.data_entrys["domicilio"], **style.STYLE_ENTRYS).pack(**style.PACK_ENTRYS)
 
         tkinter.Label(self, text = 'Escolaridad:', anchor="w", **style.STYLE_LABELS).pack(
             **style.PACK_LABELS
         )
-        self.cb_escolaridad = ttk.Combobox(self, state="readonly", **style.STYLE_ENTRYS)
+        self.cb_escolaridad = ttk.Combobox(self, textvariable=self.data_entrys["escolaridad"], state="readonly", **style.STYLE_ENTRYS)
         self.cb_escolaridad['values'] = self.operations.show_schooling()
         self.cb_escolaridad.pack(**style.PACK_ENTRYS)
 
         tkinter.Label(self, text = 'Teléfono:', anchor="w", **style.STYLE_LABELS).pack(
             **style.PACK_LABELS
         )
-        tkinter.Entry(self, textvariable=self.telefono, **style.STYLE_ENTRYS).pack(**style.PACK_ENTRYS)
+        tkinter.Entry(self, textvariable=self.data_entrys["telefono"], **style.STYLE_ENTRYS).pack(**style.PACK_ENTRYS)
 
         tkinter.Label(self, text = 'Actividad:', anchor="w", **style.STYLE_LABELS).pack(
             **style.PACK_LABELS
         )
-        self.cb_actividad = ttk.Combobox(self, state='readonly', **style.STYLE_ENTRYS)
+        self.cb_actividad = ttk.Combobox(self, textvariable=self.data_entrys["actividad"], state='readonly', **style.STYLE_ENTRYS)
         self.cb_actividad['values'] = self.operations.show_activities()
         self.cb_actividad.pack(**style.PACK_ENTRYS)
     
         tkinter.Label(self, text = 'Vencimiento:', anchor="w", **style.STYLE_LABELS).pack(
             **style.PACK_LABELS
         )
-        self.calendar = tkcalendar.DateEntry(self, date_pattern='dd/mm/y').pack(**style.PACK_ENTRYS)
+        self.calendar = tkcalendar.DateEntry(self, textvariable=self.data_entrys["vencimiento"], date_pattern='dd/mm/y').pack(**style.PACK_ENTRYS)
 
         buttons = tkinter.Frame(self)
         buttons.pack( side = tkinter.TOP, fill = tkinter.BOTH, expand = True)

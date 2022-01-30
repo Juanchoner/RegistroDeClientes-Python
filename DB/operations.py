@@ -53,7 +53,7 @@ class Operations:
         if len(cursor_row) > 0:
             content = table.item(cursor_row)
             client_data =  content['values']
-            print(client_data[0], client_data[1], client_data[2], client_data[3], client_data[4], client_data[5])
+            return client_data
         else:
             print("Creo que falta algo aquí...")
             return
