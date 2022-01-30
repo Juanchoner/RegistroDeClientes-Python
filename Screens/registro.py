@@ -6,12 +6,14 @@ import tkinter
 from Constants import style
 from Widgets.form import FormRegister
 from Widgets.table import CostumerTable
+from DB.operations import Operations
 
 class Registro(tkinter.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.configure(background = style.BACKGROUND)
         self.controller = controller
+        self.operation = Operations()
 
         self.create_widgets()
 
@@ -37,8 +39,8 @@ class Registro(tkinter.Frame):
             pady = 5
         )
 
-        FormRegister(operations_frame).grid(row = 0, column=0, sticky=tkinter.NSEW, padx=2, pady=2)
-        CostumerTable(operations_frame).grid(row = 0, column=1, sticky=tkinter.NSEW, padx=2, pady=2)
+        FormRegister(operations_frame, self.operation).grid(row = 0, column=0, sticky=tkinter.NSEW, padx=2, pady=2)
+        CostumerTable(operations_frame, self.operation).grid(row = 0, column=1, sticky=tkinter.NSEW, padx=2, pady=2)
 
         operations_frame.grid_columnconfigure(0, weight=1)
         operations_frame.grid_columnconfigure(1, weight=5)
