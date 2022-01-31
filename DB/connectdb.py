@@ -12,8 +12,10 @@ class DataAccessObject:
 
     def show_costumers_db(self):
         cur = self.con.cursor()
-        information_costumers_db = '''SELECT clientes.nombre, clientes.domicilio, 
-                                    escolaridades.escolaridad, clientes.telefono, actividades.nombre, clientes.vencimiento
+        information_costumers_db = '''SELECT clientes.id_cliente, clientes.nombre, clientes.domicilio, 
+                                            escolaridades.escolaridad, clientes.telefono, 
+                                            actividades.nombre || ' $' || actividades.costo, 
+                                            clientes.vencimiento
                                     FROM clientes
                                     INNER JOIN escolaridades ON clientes.escolaridad = escolaridades.id_escolaridad
                                     INNER JOIN actividades ON clientes.actividad = actividades.id_actividad;'''

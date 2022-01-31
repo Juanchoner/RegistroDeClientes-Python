@@ -2,6 +2,7 @@
 Las operaciones que tiene la apliación.
 '''
 
+from cmath import pi
 import tkinter
 from DB.connectdb import DataAccessObject
 
@@ -9,8 +10,40 @@ class Operations:
     def __init__(self):
         self.operation = DataAccessObject()
 
-    #Llenar comobox de escoloridad
+    def transfrom_schooling(self):
+        '''
+        Invierte los grados academicos para que a la hora de un registro
+        se mande el ID de la escolaridad
+        '''
+        try:
+            row_schooling = self.operation.show_schooling_db()
+        except:
+            print('Hubo un error...')
+        schooling = dict()
+        for act in row_schooling:
+            schooling.setdefault(act[1], act[0])
+        return schooling
+
+    def transform_activities(self):
+        '''
+        Invierte el nombre de la actividad con su ID para que a la hora de un registro
+        se mande el ID de la actividad
+        '''
+        try:
+            row_activity = self.operation.show_activites_db()
+        except:
+            print('Hubo un error...')
+        activity = dict()
+        for act in row_activity:
+            activity.setdefault(f'{act[1]} ${act[2]}', act[0])
+        print(activity)
+        return activity
+
     def show_schooling(self):
+        '''
+        Rellena el comobox de escolaridad con los datos que se
+        encuentran en la base de datos.
+        '''
         try:
             row_schooling = self.operation.show_schooling_db()
         except:
@@ -22,13 +55,17 @@ class Operations:
         return schooling_tuple
 
     def show_activities(self):
+        '''
+        Rellena el comobox de actividades con los datos que se
+        encuentran en la base de datos.
+        '''
         try:
             row_activity = self.operation.show_activites_db()
         except:
             print('Hubo un error...')
         activity = []
         for act in row_activity:
-            activity.append(f'{act[1]} ${act[2]}')
+            activity.append(f'{act[1]}')
         activity_tuple = tuple(activity)
         return activity_tuple
 
@@ -49,11 +86,37 @@ class Operations:
             table.insert('', tkinter.END, values=row)
 
     def get_cursor(self, table):
+        '''
+        Al seleccionar a un cliente en la tabla este la manda a Entrys de 
+        los formularios
+        Argumentos:
+            -table: De que tabla se están seleccionado al cliente
+        '''
         cursor_row = table.focus()
         if len(cursor_row) > 0:
             content = table.item(cursor_row)
             client_data =  content['values']
             return client_data
         else:
-            print("Creo que falta algo aquí...")
-            return
+            client_data = []
+            return client_data
+
+    def registration(self, data, school, activity):
+        '''
+        Valida la infromación que se mandará a la base de datos
+        Arguentos:
+            -data: Los datos que se encuentran en los StringVar
+            -school: Escolaridad invertido 'grado':id
+            -activity: Actividades invertidas 'actividad':id
+        '''
+        for key, value in data.items():
+            if value.get() == '':
+                return f'El campo {key} esta vacio...'
+        if not len(data['telefono'].get()) == 10:
+            return 'Verifique el formato del nuemro de telefono...'
+        
+        id_school = school.get(data['escolaridad'].get())
+        print(f'ID del grado escolar: {id_school}')
+
+        id_activity = activity.get(data['actividad'].get())
+        print(f'ID de la actividad: {id_activity}')

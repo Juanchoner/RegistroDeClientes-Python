@@ -16,6 +16,7 @@ class Registro(tkinter.Frame):
         self.operation = Operations()
         self.data_entrys = {
             #Variables de los entrys datos en los etrys
+            "id": tkinter.IntVar(),
             "nombre" : tkinter.StringVar(),
             "domicilio" : tkinter.StringVar(),
             "escolaridad" : tkinter.StringVar(),

@@ -16,18 +16,28 @@ class CostumerTable(tkinter.Frame):
 
         self.create_table()
         self.operations.show_data_table(self.costumers_table)
-
+    #Checar
     def take_data(self, ev):
         data = self.operations.get_cursor(self.costumers_table)
-        self.send_data["nombre"].set(data[0])
-        self.send_data["domicilio"].set(data[1])
-        self.send_data["escolaridad"].set(data[2])
-        self.send_data["telefono"].set(data[3])
-        self.send_data["actividad"].set(data[4])
-        self.send_data["vencimiento"].set(data[5])
+        if not data:
+            self.send_data["id"].set('')
+            self.send_data["nombre"].set('')
+            self.send_data["domicilio"].set('')
+            self.send_data["escolaridad"].set('')
+            self.send_data["telefono"].set('')
+            self.send_data["actividad"].set('')
+            self.send_data["vencimiento"].set('')
+        else:
+            self.send_data["id"].set(data[0])
+            self.send_data["nombre"].set(data[1])
+            self.send_data["domicilio"].set(data[2])
+            self.send_data["escolaridad"].set(data[3])
+            self.send_data["telefono"].set(data[4])
+            self.send_data["actividad"].set(data[5])
+            self.send_data["vencimiento"].set(data[6])
 
     def create_table(self):
-        names_column = ("Nombre", "Domicilio", "Escolaridad", "Teléfono", "Actividad", "Vencimiento")
+        names_column = ("ID", "Nombre", "Domicilio", "Escolaridad", "Teléfono", "Actividad", "Vencimiento")
         self.costumers_table = ttk.Treeview(self, columns = names_column)
         for column in names_column:
             self.costumers_table.heading(f'{column}', text=f'{column}')
