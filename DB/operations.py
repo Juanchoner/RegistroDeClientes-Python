@@ -2,7 +2,7 @@
 Las operaciones que tiene la apliación.
 '''
 
-from cmath import pi
+
 import tkinter
 from DB.connectdb import DataAccessObject
 
@@ -36,7 +36,7 @@ class Operations:
         activity = dict()
         for act in row_activity:
             activity.setdefault(f'{act[1]} ${act[2]}', act[0])
-        print(activity)
+
         return activity
 
     def show_schooling(self):
@@ -65,12 +65,12 @@ class Operations:
             print('Hubo un error...')
         activity = []
         for act in row_activity:
-            activity.append(f'{act[1]}')
+            activity.append(f'{act[1]} ${act[2]}')
         activity_tuple = tuple(activity)
         return activity_tuple
 
 
-    #Operaciones para la tabla
+
     def show_data_table(self, table):
         '''
         Mostrar los registros que se encuentran en la base de datos.
@@ -84,6 +84,21 @@ class Operations:
         table.delete(*table.get_children())
         for row in rows:
             table.insert('', tkinter.END, values=row)
+        
+    def create_refernce(self, table):
+        '''
+        Se crea una referencia para la tabla donde se muestra a los clientes, 
+        con el fin de poder actualizar la tabla a la hora de ejecutar acciones.
+        Argumantos:
+            -table: La tabla a la que se le hace referencia
+        '''
+        self.referencia = table
+
+    def refresh_table(self):
+        '''
+        Refresca la tabla para mostra los nuevos registros.
+        '''
+        self.show_data_table(self.referencia)
 
     def get_cursor(self, table):
         '''
@@ -114,9 +129,13 @@ class Operations:
                 return f'El campo {key} esta vacio...'
         if not len(data['telefono'].get()) == 10:
             return 'Verifique el formato del nuemro de telefono...'
-        
+
         id_school = school.get(data['escolaridad'].get())
-        print(f'ID del grado escolar: {id_school}')
+
 
         id_activity = activity.get(data['actividad'].get())
-        print(f'ID de la actividad: {id_activity}')
+        
+        self.operation.insert_costumer_db(data['nombre'].get(), data['domicilio'].get(), id_school, 
+        data['telefono'].get(), id_activity, data['vencimiento'].get())
+        self.refresh_table()
+        return f'Cliente registrado'

@@ -16,7 +16,8 @@ class CostumerTable(tkinter.Frame):
 
         self.create_table()
         self.operations.show_data_table(self.costumers_table)
-    #Checar
+        self.operations.create_refernce(self.costumers_table)
+
     def take_data(self, ev):
         data = self.operations.get_cursor(self.costumers_table)
         if not data:

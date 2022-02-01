@@ -2,7 +2,7 @@
 Widget para el formulario de registro de clientes
 '''
 
-from cgitb import text
+
 import tkinter
 from tkinter import ttk, messagebox
 import tkcalendar
@@ -27,10 +27,13 @@ class FormRegister(tkinter.Frame):
         self.data_entrys["telefono"].set('')
         self.data_entrys["actividad"].set('')
         self.data_entrys["vencimiento"].set('')
+        self.operations.refresh_table()
 
     def customer_registration(self):
         message = self.operations.registration(self.data_entrys, self.schooling_invert, self.activities_invert)
         messagebox.showwarning("Nota:", message)
+        if message == "Cliente registrado":
+            self.clear_entrys()
 
     def create_form(self):
         tkinter.Label(self, text = 'Nombre:', anchor="w", **style.STYLE_LABELS).pack(
@@ -71,10 +74,10 @@ class FormRegister(tkinter.Frame):
         buttons.pack( side = tkinter.TOP, fill = tkinter.BOTH, expand = True)
         buttons.configure(background = style.BACKGROUND)
         tkinter.Button(buttons, text="Registrar", command=self.customer_registration, **style.STYLE_BUTTONS).grid(row=0, column=0, **style.GRID_BUTTONS)
-        tkinter.Button(buttons, text="Limpiar", command=self.clear_entrys, **style.STYLE_BUTTONS).grid(row=0, column=1, **style.GRID_BUTTONS)
+        tkinter.Button(buttons, text="Cancelar", command=self.clear_entrys, **style.STYLE_BUTTONS).grid(row=0, column=1, **style.GRID_BUTTONS)
         tkinter.Button(buttons, text="Actualizar", **style.STYLE_BUTTONS).grid(row=1, column=0, **style.GRID_BUTTONS)
         tkinter.Button(buttons, text="Eliminar", **style.STYLE_BUTTONS).grid(row=1, column=1, **style.GRID_BUTTONS)
-        tkinter.Button(buttons, text="Actualizar tabla", **style.STYLE_BUTTONS).grid(row=2, columnspan=2, **style.GRID_BUTTONS)
+
 
 
         buttons.grid_columnconfigure(0, weight=1)
