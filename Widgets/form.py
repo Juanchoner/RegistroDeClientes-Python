@@ -21,6 +21,7 @@ class FormRegister(tkinter.Frame):
         self.create_form()
 
     def clear_entrys(self):
+        self.data_entrys["id"].set(0)
         self.data_entrys["nombre"].set('')
         self.data_entrys["domicilio"].set('')
         self.data_entrys["escolaridad"].set('')
@@ -33,6 +34,12 @@ class FormRegister(tkinter.Frame):
         message = self.operations.registration(self.data_entrys, self.schooling_invert, self.activities_invert)
         messagebox.showwarning("Nota:", message)
         if message == "Cliente registrado":
+            self.clear_entrys()
+
+    def customer_update(self):
+        message = self.operations.update(self.data_entrys, self.schooling_invert, self.activities_invert)
+        messagebox.showwarning("Nota:", message)
+        if message == "Cliente actualizado":
             self.clear_entrys()
 
     def create_form(self):
@@ -75,7 +82,7 @@ class FormRegister(tkinter.Frame):
         buttons.configure(background = style.BACKGROUND)
         tkinter.Button(buttons, text="Registrar", command=self.customer_registration, **style.STYLE_BUTTONS).grid(row=0, column=0, **style.GRID_BUTTONS)
         tkinter.Button(buttons, text="Cancelar", command=self.clear_entrys, **style.STYLE_BUTTONS).grid(row=0, column=1, **style.GRID_BUTTONS)
-        tkinter.Button(buttons, text="Actualizar", **style.STYLE_BUTTONS).grid(row=1, column=0, **style.GRID_BUTTONS)
+        tkinter.Button(buttons, text="Actualizar", command=self.customer_update, **style.STYLE_BUTTONS).grid(row=1, column=0, **style.GRID_BUTTONS)
         tkinter.Button(buttons, text="Eliminar", **style.STYLE_BUTTONS).grid(row=1, column=1, **style.GRID_BUTTONS)
 
 

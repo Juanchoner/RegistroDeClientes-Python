@@ -132,10 +132,36 @@ class Operations:
 
         id_school = school.get(data['escolaridad'].get())
 
-
         id_activity = activity.get(data['actividad'].get())
         
         self.operation.insert_costumer_db(data['nombre'].get(), data['domicilio'].get(), id_school, 
         data['telefono'].get(), id_activity, data['vencimiento'].get())
         self.refresh_table()
-        return f'Cliente registrado'
+        return 'Cliente registrado'
+
+    def update(self, data, school, activity):
+        '''
+        Valida la infromación que se mandará a la base de datos para la actualización
+        del cliente selecionado.
+        Arguentos:
+            -data: Los datos que se encuentran en los IntVar/StringVar
+            -school: Escolaridad invertido 'grado':id
+            -activity: Actividades invertidas 'actividad':id
+        '''
+        costumer_id = data['id'].get()
+        if costumer_id == 0:
+            return 'Favor de selecionar un cliente'
+        for key, value in data.items():
+            if value.get() == '':
+                return f'El campo {key} esta vacio...'
+        if not len(data['telefono'].get()) == 10:
+            return 'Verifique el formato del nuemro de telefono...'
+
+        id_school = school.get(data['escolaridad'].get())
+
+        id_activity = activity.get(data['actividad'].get())
+
+        self.operation.update_costumer_db(costumer_id, data['nombre'].get(), data['domicilio'].get(), id_school,
+        data['telefono'].get(), id_activity, data['vencimiento'].get())
+        self.refresh_table()
+        return 'Cliente actualizado'
