@@ -163,5 +163,16 @@ class Operations:
 
         self.operation.update_costumer_db(costumer_id, data['nombre'].get(), data['domicilio'].get(), id_school,
         data['telefono'].get(), id_activity, data['vencimiento'].get())
-        self.refresh_table()
         return 'Cliente actualizado'
+
+    def delete(self, data):
+        '''
+        Elimina al cleinte que fue selecionado
+        Argumentos:
+            -data: Datos que se encuentran en IntVar/StringVar
+        '''
+        custumer_id = data['id'].get()
+        if custumer_id == 0:
+            return 'Favor de selecionar un cliente'
+        self.operation.delete_costumer_db(custumer_id)
+        return 'Cliente eliminado'

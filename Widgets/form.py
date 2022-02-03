@@ -3,6 +3,7 @@ Widget para el formulario de registro de clientes
 '''
 
 
+from email import message
 import tkinter
 from tkinter import ttk, messagebox
 import tkcalendar
@@ -40,6 +41,12 @@ class FormRegister(tkinter.Frame):
         message = self.operations.update(self.data_entrys, self.schooling_invert, self.activities_invert)
         messagebox.showwarning("Nota:", message)
         if message == "Cliente actualizado":
+            self.clear_entrys()
+
+    def custumer_delete(self):
+        message = self.operations.delete(self.data_entrys)
+        messagebox.showwarning("Nota:", message)
+        if message == "Cliente eliminado":
             self.clear_entrys()
 
     def create_form(self):
@@ -83,7 +90,7 @@ class FormRegister(tkinter.Frame):
         tkinter.Button(buttons, text="Registrar", command=self.customer_registration, **style.STYLE_BUTTONS).grid(row=0, column=0, **style.GRID_BUTTONS)
         tkinter.Button(buttons, text="Cancelar", command=self.clear_entrys, **style.STYLE_BUTTONS).grid(row=0, column=1, **style.GRID_BUTTONS)
         tkinter.Button(buttons, text="Actualizar", command=self.customer_update, **style.STYLE_BUTTONS).grid(row=1, column=0, **style.GRID_BUTTONS)
-        tkinter.Button(buttons, text="Eliminar", **style.STYLE_BUTTONS).grid(row=1, column=1, **style.GRID_BUTTONS)
+        tkinter.Button(buttons, text="Eliminar", command=self.custumer_delete,  **style.STYLE_BUTTONS).grid(row=1, column=1, **style.GRID_BUTTONS)
 
 
 
