@@ -68,3 +68,16 @@ class DataAccessObject:
         cur.execute(show_activites)
         activites = cur.fetchall()
         return activites
+
+    def generate_csv_db(self):
+        cur = self.con.cursor()
+        information_costumers_db = '''SELECT clientes.id_cliente, clientes.nombre, clientes.domicilio, 
+                                            escolaridades.escolaridad, clientes.telefono, 
+                                            actividades.nombre, actividades.costo, clientes.vencimiento
+                                    FROM clientes
+                                    INNER JOIN escolaridades ON clientes.escolaridad = escolaridades.id_escolaridad
+                                    INNER JOIN actividades ON clientes.actividad = actividades.id_actividad;'''
+        cur.execute(information_costumers_db)
+        datos = cur.fetchall()
+        return datos
+        

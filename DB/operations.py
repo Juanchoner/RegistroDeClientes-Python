@@ -4,6 +4,7 @@ Las operaciones que tiene la apliación.
 
 
 import tkinter
+import csv
 from DB.connectdb import DataAccessObject
 
 class Operations:
@@ -124,6 +125,8 @@ class Operations:
             -school: Escolaridad invertido 'grado':id
             -activity: Actividades invertidas 'actividad':id
         '''
+        if data["id"].get() != 0:
+            return 'Usario ya registrado'
         for key, value in data.items():
             if value.get() == '':
                 return f'El campo {key} esta vacio...'
@@ -176,3 +179,13 @@ class Operations:
             return 'Favor de selecionar un cliente'
         self.operation.delete_costumer_db(custumer_id)
         return 'Cliente eliminado'
+
+    def upload_csv(self, name_csv):
+        records = self.operation.generate_csv_db()
+        
+        headers = ["ID", "Nombre", "Domicilio", "Escolaridad", "Teléfono", "Actividad", "Costo", "Vencimiento"]
+
+        with open(name_csv, "w", newline="") as file_csv:
+            file = csv.writer(file_csv)
+            file.writerow(headers)
+            file.writerows(records)

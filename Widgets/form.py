@@ -2,10 +2,8 @@
 Widget para el formulario de registro de clientes
 '''
 
-
-from email import message
 import tkinter
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, filedialog
 import tkcalendar
 from Constants import style
 
@@ -49,6 +47,18 @@ class FormRegister(tkinter.Frame):
         if message == "Cliente eliminado":
             self.clear_entrys()
 
+    def generate_csv(self):
+        file = filedialog.asksaveasfilename(title="Guardar registro",
+            defaultextension=".csv",
+            initialfile="Registro de clientes",
+            filetypes=[("Valores separados por comas", ".csv"), ("Nota", ".txt")]
+            )
+        if len(file)>0:
+            self.operations.upload_csv(file)
+        else:
+            return
+
+
     def create_form(self):
         tkinter.Label(self, text = 'Nombre:', anchor="w", **style.STYLE_LABELS).pack(
             **style.PACK_LABELS
@@ -91,6 +101,7 @@ class FormRegister(tkinter.Frame):
         tkinter.Button(buttons, text="Cancelar", command=self.clear_entrys, **style.STYLE_BUTTONS).grid(row=0, column=1, **style.GRID_BUTTONS)
         tkinter.Button(buttons, text="Actualizar", command=self.customer_update, **style.STYLE_BUTTONS).grid(row=1, column=0, **style.GRID_BUTTONS)
         tkinter.Button(buttons, text="Eliminar", command=self.custumer_delete,  **style.STYLE_BUTTONS).grid(row=1, column=1, **style.GRID_BUTTONS)
+        tkinter.Button(buttons, text="Generar CSV", command=self.generate_csv, **style.STYLE_BUTTONS).grid(row=2, columnspan=2, **style.GRID_BUTTONS)
 
 
 
